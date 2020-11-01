@@ -1,10 +1,10 @@
 package types
 
-// #cgo CFLAGS: -I/opt/ros/bouncy/include
-// #cgo LDFLAGS: -L/opt/ros/bouncy/lib -lrcl -lrosidl_generator_c -lrosidl_typesupport_c -lstd_msgs__rosidl_generator_c -lstd_msgs__rosidl_typesupport_c
+// #cgo CFLAGS: -I/opt/ros/foxy/include
+// #cgo LDFLAGS: -L/opt/ros/foxy/lib -lrcl -lrosidl_runtime_c -lrosidl_typesupport_c -lstd_msgs__rosidl_generator_c -lstd_msgs__rosidl_typesupport_c
 //// #include "msg_types.h"
 //#include <rcl/rcl.h>
-//#include <rosidl_generator_c/message_type_support_struct.h>
+//#include <rosidl_runtime_c/message_type_support_struct.h>
 import "C"
 import (
 	"unsafe"

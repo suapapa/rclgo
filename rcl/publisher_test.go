@@ -1,11 +1,9 @@
-package publisher
+package rcl
 
 import (
 	"fmt"
 	"os"
 	"os/signal"
-	"rclgo/node"
-	"rclgo/rcl"
 	"rclgo/types"
 	"strconv"
 	"syscall"
@@ -18,8 +16,8 @@ import (
 // 	for n := 0; n < b.N; n++ {
 
 // 		// Initialization
-// 		rcl.Init()
-// 		rcl.Shutdown()
+// 		Init()
+// 		Shutdown()
 
 // 	}
 
@@ -30,12 +28,12 @@ import (
 // 	for n := 0; n < b.N; n++ {
 
 // 		// Initialization
-// 		// rcl.Init()
-// 		// myNode := node.GetZeroInitializedNode()
-// 		// myNodeOpts := node.GetNodeDefaultOptions()
+// 		// Init()
+// 		// myNode := GetZeroInitializedNode()
+// 		// myNodeOpts := GetNodeDefaultOptions()
 
 // 		// // fmt.Printf("Creating the node! \n")
-// 		// node.NodeInit(myNode, "GoPublisher", "", myNodeOpts)
+// 		// NodeInit(myNode, "GoPublisher", "", myNodeOpts)
 
 // 		// //Create the publisher
 // 		// myPub := GetZeroInitializedPublisher()
@@ -60,8 +58,8 @@ import (
 
 // 		myMsg.DestroyMessage()
 // 		// PublisherFini(myPub, myNode)
-// 		// node.NodeFini(myNode)
-// 		// rcl.Shutdown()
+// 		// NodeFini(myNode)
+// 		// Shutdown()
 // 	}
 
 // }
@@ -83,12 +81,13 @@ func TestPublisherStringMsg(t *testing.T) {
 	}()
 
 	// Initialization
-	rcl.Init()
-	myNode := node.GetZeroInitializedNode()
-	myNodeOpts := node.GetNodeDefaultOptions()
+	rclCtx := GetZeroInitializatiedContext()
+	Init(rclCtx)
+	myNode := GetZeroInitializedNode()
+	myNodeOpts := GetNodeDefaultOptions()
 
 	fmt.Printf("Creating the node! \n")
-	node.NodeInit(myNode, "GoPublisher", "", myNodeOpts)
+	NodeInit(&myNode, "GoPublisher", "", rclCtx, myNodeOpts)
 
 	//Create the publisher
 	myPub := GetZeroInitializedPublisher()
@@ -131,8 +130,8 @@ loop:
 
 	myMsg.DestroyMessage()
 	PublisherFini(myPub, myNode)
-	node.NodeFini(myNode)
-	rcl.Shutdown()
+	NodeFini(myNode)
+	Shutdown(rclCtx)
 
 }
 
@@ -153,12 +152,12 @@ loop:
 // 	}()
 
 // 	// Initialization
-// 	rcl.Init()
-// 	myNode := node.GetZeroInitializedNode()
-// 	myNodeOpts := node.GetNodeDefaultOptions()
+// 	Init()
+// 	myNode := GetZeroInitializedNode()
+// 	myNodeOpts := GetNodeDefaultOptions()
 
 // 	fmt.Printf("Creating the node! \n")
-// 	node.NodeInit(myNode, "GoPublisher", "", myNodeOpts)
+// 	NodeInit(myNode, "GoPublisher", "", myNodeOpts)
 
 // 	//Create the publisher
 // 	myPub := GetZeroInitializedPublisher()
@@ -206,8 +205,8 @@ loop:
 
 // 	myMsg.DestroyMessage()
 // 	PublisherFini(myPub, myNode)
-// 	node.NodeFini(myNode)
-// 	rcl.Shutdown()
+// 	NodeFini(myNode)
+// 	Shutdown()
 
 // }
 
@@ -228,12 +227,12 @@ loop:
 // 	}()
 
 // 	// Initialization
-// 	rcl.Init()
-// 	myNode := node.GetZeroInitializedNode()
-// 	myNodeOpts := node.GetNodeDefaultOptions()
+// 	Init()
+// 	myNode := GetZeroInitializedNode()
+// 	myNodeOpts := GetNodeDefaultOptions()
 
 // 	fmt.Printf("Creating the node! \n")
-// 	node.NodeInit(myNode, "GoPublisher", "", myNodeOpts)
+// 	NodeInit(myNode, "GoPublisher", "", myNodeOpts)
 
 // 	//Create the publisher
 // 	myPub := GetZeroInitializedPublisher()
@@ -281,7 +280,7 @@ loop:
 
 // 	myMsg.DestroyMessage()
 // 	PublisherFini(myPub, myNode)
-// 	node.NodeFini(myNode)
-// 	rcl.Shutdown()
+// 	NodeFini(myNode)
+// 	Shutdown()
 
 // }

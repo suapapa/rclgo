@@ -1,23 +1,22 @@
-package publisher
+package rcl
 
-// #cgo CFLAGS: -I/opt/ros/bouncy/include
-// #cgo LDFLAGS: -L/opt/ros/bouncy/lib -lrcl -lrosidl_generator_c -lrosidl_typesupport_c -lstd_msgs__rosidl_generator_c -lstd_msgs__rosidl_typesupport_c
-// #include <rosidl_generator_c/message_type_support_struct.h>
-// #include "rcl/rcl.h"
+// #cgo CFLAGS: -I/opt/ros/foxy/include
+// #cgo LDFLAGS: -L/opt/ros/foxy/lib -lrcl -lrosidl_runtime_c -lrosidl_typesupport_c -lstd_msgs__rosidl_generator_c -lstd_msgs__rosidl_typesupport_c
+// #include <rosidl_runtime_c/message_type_support_struct.h>
+// #include <rcl/rcl.h>
 // #include <std_msgs/msg/string.h>
-// #include  <std_msgs/msg/string__functions.h>
-// #include <rosidl_generator_c/string_functions.h>
+// #include  <std_msgs/msg/detail/string__functions.h>
+// #include <rosidl_runtime_c/string_functions.h>
 // int publish (const rcl_publisher_t * publisher,  rosidl_message_type_support_t* msg, void * data){
 //		if(msg == NULL || publisher == NULL || data == NULL)
 //			return 1;
 //		// Payload assignation to the message
 //		msg->data = data;
-//		int retValue = rcl_publish(publisher, msg->data);
+//		int retValue = rcl_publish(publisher, msg->data, NULL);
 //		return retValue;
 //}
 import "C"
 import (
-	"rclgo/node"
 	"rclgo/types"
 	"unsafe"
 )
@@ -44,20 +43,25 @@ func GetTopicName(publisher Publisher) string {
 	return C.GoString(C.rcl_publisher_get_topic_name(publisher.RCLPublisher))
 }
 
-func PublisherInit(publisher Publisher, publisherOptions PublisherOptions, node node.Node, topicName string, msg types.MessageTypeSupport) types.RCLRetT {
+func PublisherInit(publisher Publisher,
+	pubOpts PublisherOptions, node Node, topicName string, msg types.MessageTypeSupport) types.RCLRetT {
 
 	tName := C.CString(topicName)
 	defer C.free(unsafe.Pointer(tName))
 
-	return types.RCLRetT(C.rcl_publisher_init(publisher.RCLPublisher,
+	return types.RCLRetT(C.rcl_publisher_init(
+		(*C.struct_rcl_publisher_t)(unsafe.Pointer(publisher.RCLPublisher)),
 		(*C.struct_rcl_node_t)(unsafe.Pointer(node.RCLNode)),
 		(*C.rosidl_message_type_support_t)(unsafe.Pointer(msg.ROSIdlMessageTypeSupport)),
-		tName,
-		publisherOptions.RCLPublisherOptions))
+		(*C.char)(unsafe.Pointer(tName)),
+		// (*C.char)(unsafe.Pointer(tName)),
+		(*C.struct_rcl_publisher_options_t)(unsafe.Pointer(C.NULL)),
+		// (*C.struct_rcl_publisher_options_t)(unsafe.Pointer(pubOpts.RCLPublisherOptions)),
+	))
 
 }
 
-func PublisherFini(publisher Publisher, node node.Node) types.RCLRetT {
+func PublisherFini(publisher Publisher, node Node) types.RCLRetT {
 	return types.RCLRetT(C.rcl_publisher_fini(publisher.RCLPublisher, (*C.struct_rcl_node_t)(unsafe.Pointer(node.RCLNode))))
 }
 
@@ -71,5 +75,5 @@ func Publish(publisher Publisher, msg types.MessageTypeSupport, data types.Messa
 }
 
 func IsValid(publisher Publisher) bool {
-	return bool(C.rcl_publisher_is_valid(publisher.RCLPublisher, nil))
+	return bool(C.rcl_publisher_is_valid(publisher.RCLPublisher))
 }

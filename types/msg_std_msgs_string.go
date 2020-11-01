@@ -1,7 +1,7 @@
 package types
 
-// #cgo CFLAGS: -I/opt/ros/bouncy/include
-// #cgo LDFLAGS: -L/opt/ros/bouncy/lib -lrcl -lrosidl_generator_c -lrosidl_typesupport_c -lstd_msgs__rosidl_generator_c -lstd_msgs__rosidl_typesupport_c
+// #cgo CFLAGS: -I/opt/ros/foxy/include
+// #cgo LDFLAGS: -L/opt/ros/foxy/lib -lrcl -lrosidl_runtime_c -lrosidl_typesupport_c -lstd_msgs__rosidl_generator_c -lstd_msgs__rosidl_typesupport_c
 // #include "msg_types.h"
 // char * getCharFromStruct(std_msgs__msg__String* msg){
 //		if(msg!=NULL)
@@ -43,7 +43,7 @@ func (msg *StdMsgsString) DestroyMessage() {
 func (msg *StdMsgsString) SetText(text string) {
 	cText := C.CString(text)
 	defer C.free(unsafe.Pointer(cText))
-	C.rosidl_generator_c__String__assign(&msg.data.data, cText)
+	C.rosidl_runtime_c__String__assign(&msg.data.data, cText)
 }
 
 func GetMessageTypeFromStdMsgsString() MessageTypeSupport {

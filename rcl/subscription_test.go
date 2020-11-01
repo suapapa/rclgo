@@ -1,11 +1,9 @@
-package subscription
+package rcl
 
 import (
 	"fmt"
 	"os"
 	"os/signal"
-	"rclgo/node"
-	"rclgo/rcl"
 	"rclgo/types"
 	"syscall"
 	"testing"
@@ -28,12 +26,13 @@ func TestSubscription(t *testing.T) {
 		}
 	}()
 	// Initialization
-	rcl.Init()
-	myNode := node.GetZeroInitializedNode()
-	myNodeOpts := node.GetNodeDefaultOptions()
+	rclCtx := GetZeroInitializatiedContext()
+	Init(rclCtx)
+	myNode := GetZeroInitializedNode()
+	myNodeOpts := GetNodeDefaultOptions()
 
 	fmt.Printf("Creating the node! \n")
-	node.NodeInit(myNode, "GoSubscriber", "", myNodeOpts)
+	NodeInit(&myNode, "GoSubscriber", "", rclCtx, myNodeOpts)
 	//Create the subscriptor
 	mySub := GetZeroInitializedSubscription()
 	mySubOpts := GetSubscriptionDefaultOptions()
@@ -70,7 +69,6 @@ loop:
 
 	myMsg.DestroyMessage()
 	SubscriptionFini(mySub, myNode)
-	node.NodeFini(myNode)
-	rcl.Shutdown()
-
+	NodeFini(myNode)
+	Shutdown(rclCtx)
 }

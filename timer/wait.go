@@ -1,8 +1,8 @@
 package timer
 
-// #cgo CFLAGS: -I/opt/ros/bouncy/include
-// #cgo LDFLAGS: -L/opt/ros/bouncy/lib -lrcl -lrcutils
-// #include "rcl/rcl.h"
+// #cgo CFLAGS: -I/opt/ros/foxy/include
+// #cgo LDFLAGS: -L/opt/ros/foxy/lib -lrcl -lrcutils
+// #include <rcl/rcl.h>
 import "C"
 import (
 	"rclgo/rcl"

@@ -1,9 +1,9 @@
-package node
+package rcl
 
-// #cgo CFLAGS: -I/opt/ros/bouncy/include
-// #cgo LDFLAGS: -L/opt/ros/bouncy/lib -lrcl -lrcutils
-// #include "rcl/rcl.h"
-// #include "rcl/node.h"
+// #cgo CFLAGS: -I/opt/ros/foxy/include
+// #cgo LDFLAGS: -L/opt/ros/foxy/lib -lrcl -lrcutils
+// #include <rcl/rcl.h>
+// #include <rcl/node.h>
 import "C"
 import (
 	"rclgo/types"
@@ -28,13 +28,13 @@ func GetNodeDefaultOptions() NodeOptions {
 	return NodeOptions{&defOpts}
 }
 
-func NodeInit(node Node, name string, namespace string, nodeOptions NodeOptions) types.RCLRetT {
-
+func NodeInit(node *Node, name string, namespace string, rclCtx Context, nodeOptions NodeOptions) types.RCLRetT {
 	cName := C.CString(name)
 	defer C.free(unsafe.Pointer(cName))
 	cNameSpace := C.CString(namespace)
 	defer C.free(unsafe.Pointer(cNameSpace))
-	return types.RCLRetT(C.rcl_node_init(node.RCLNode, cName, cNameSpace, nodeOptions.RCLNodeOptions))
+	ctx := rclCtx.RCLContext
+	return types.RCLRetT(C.rcl_node_init(node.RCLNode, cName, cNameSpace, ctx, nodeOptions.RCLNodeOptions))
 }
 
 func NodeFini(node Node) {

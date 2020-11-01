@@ -2,8 +2,8 @@
 #define MSG_TYPES_H
 
 #include <rcl/rcl.h>
-#include <rosidl_generator_c/message_type_support_struct.h>
-#include <rosidl_generator_c/string_functions.h>
+#include <rosidl_runtime_c/message_type_support_struct.h>
+#include <rosidl_runtime_c/string_functions.h>
 #include <rcl/error_handling.h>
 
 // MACROS for function headers
