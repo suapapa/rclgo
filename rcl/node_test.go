@@ -12,6 +12,8 @@ func TestNodeCreation(t *testing.T) {
 
 	// Initialization
 	rclCtx := GetZeroInitializatiedContext()
+	defer Shutdown(rclCtx)
+
 	Init(rclCtx)
 	myNode := GetZeroInitializedNode()
 	myNodeOpts := GetNodeDefaultOptions()
@@ -20,5 +22,4 @@ func TestNodeCreation(t *testing.T) {
 	NodeInit(&myNode, "fakeNameForNode", "", rclCtx, myNodeOpts)
 	time.Sleep(10 * time.Second) // or runtime.Gosched() or similar per @misterbee
 	NodeFini(myNode)
-	Shutdown(rclCtx)
 }
