@@ -54,9 +54,7 @@ func PublisherInit(publisher Publisher,
 		(*C.struct_rcl_node_t)(unsafe.Pointer(node.RCLNode)),
 		(*C.rosidl_message_type_support_t)(unsafe.Pointer(msg.ROSIdlMessageTypeSupport)),
 		(*C.char)(unsafe.Pointer(tName)),
-		// (*C.char)(unsafe.Pointer(tName)),
-		(*C.struct_rcl_publisher_options_t)(unsafe.Pointer(C.NULL)),
-		// (*C.struct_rcl_publisher_options_t)(unsafe.Pointer(pubOpts.RCLPublisherOptions)),
+		(*C.struct_rcl_publisher_options_t)(unsafe.Pointer(pubOpts.RCLPublisherOptions)),
 	))
 
 }
